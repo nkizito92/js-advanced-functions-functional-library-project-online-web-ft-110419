@@ -87,7 +87,7 @@ const fi = (function () {
       return newArr
 
     },
-    uniqSorted: function (arr, iteratee) {
+    uniqSorted: function (arr, iter) {
       const sorted = [arr[0]]
       for (let i = 1; i < arr.length; i++) {
         if (sorted[i - 1] !== arr[i])
@@ -96,22 +96,22 @@ const fi = (function () {
       return sorted
     },
 
-    uniq: function (arr, sorted = false, iteratee = false) {
+    uniq: function (arr, sorted = false, iter = false) {
       if (sorted) {
-        return fi.uniqSorted(arr, iteratee)
-      } else if (!iteratee) {
+        return fi.uniqSorted(arr, iter)
+      } else if (!iter) {
         return Array.from(new Set(arr))
       } else {
-        const modifiedVals = new Set()
-        const uniqVals = new Set()
+        const regVal = new Set()
+        const nonDupVal = new Set()
         for (let val of arr) {
-          const moddedVal = iteratee(val)
-          if (!modifiedVals.has(moddedVal)) {
-            modifiedVals.add(moddedVal)
-            uniqVals.add(val)
+          const defVals = iter(val)
+          if (!regVal.has(defVals)) {
+            regVal.add(defVals)
+            nonDupVal.add(val)
           }
         }
-        return Array.from(uniqVals)
+        return Array.from(nonDupVal)
       }
     },
     keys: (obj) => {
